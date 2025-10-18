@@ -1,13 +1,28 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useEffect } from "react";
+import Hero from "@/components/Hero";
+import Features from "@/components/Features";
+import LearningPath from "@/components/LearningPath";
+import Stats from "@/components/Stats";
+import Footer from "@/components/Footer";
 
 const Index = () => {
+  useEffect(() => {
+    document.title = "Growtech Era - Build Real Projects, Land Your Dream Job";
+    
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', 'Hands-on learning with real-world projects. Build a portfolio that impresses recruiters and ace your tech interviews. Join Growtech Era today.');
+    }
+  }, []);
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
-    </div>
+    <main>
+      <Hero />
+      <Features />
+      <LearningPath />
+      <Stats />
+      <Footer />
+    </main>
   );
 };
 
