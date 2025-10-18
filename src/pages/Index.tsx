@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import Hero from "@/components/Hero";
 import Features from "@/components/Features";
 import LearningPath from "@/components/LearningPath";
-import Stats from "@/components/Stats";
+import CTA from "@/components/CTA";
 import Footer from "@/components/Footer";
 
 const Index = () => {
@@ -20,7 +20,7 @@ const Index = () => {
       <Hero />
       <Features />
       <LearningPath />
-      <Stats />
+      <CTA />
       <Footer />
     </main>
   );
