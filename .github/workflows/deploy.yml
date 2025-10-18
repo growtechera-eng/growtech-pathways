@@ -1,24 +1,31 @@
-name: Deploy to GoDaddy FTP
+name: Build and Deploy React App to GitHub Pages
 
 on:
   push:
     branches:
-      - main  # or your default branch
+      - main  # or your default branch name
 
 jobs:
-  ftp-deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: FTP Deploy to GoDaddy
-        uses: SamKirkland/FTP-Deploy-Action@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
         with:
-          server: ${{ secrets.FTP_HOST }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          port: 21  # change if you use SFTP
-          local-dir: ./  # your project folder to upload, change if needed
-          server-dir: /public_html  # GoDaddy hosting directory
+          node-version: '18'  # or your preferred Node version
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build React app
+        run: npm run build
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build
