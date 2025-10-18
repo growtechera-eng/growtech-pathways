@@ -1,4 +1,4 @@
-name: Build and Deploy React App to GitHub Pages
+name: Build and Deploy GrowTech Era
 
 on:
   push:
