@@ -4,6 +4,7 @@ import Features from "@/components/Features";
 import LearningPath from "@/components/LearningPath";
 import CTA from "@/components/CTA";
 import Footer from "@/components/Footer";
+import { Feedback } from "@/components/Feedback";
 
 const Index = () => {
   useEffect(() => {
@@ -21,6 +22,7 @@ const Index = () => {
       <Features />
       <LearningPath />
       <CTA />
+      <Feedback />
       <Footer />
     </main>
   );
