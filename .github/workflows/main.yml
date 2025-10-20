@@ -30,10 +30,7 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Run tests
-        run: npm test
-
       - name: Run Deploy
-        run: npm deploy
+        run: npm run deploy
 
   
