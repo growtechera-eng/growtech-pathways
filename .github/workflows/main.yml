@@ -13,20 +13,23 @@ on:
           - test
           
 permissions:
-  id-token: write
   contents: read
   pages: write
+  id-token: write
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Show selected environment
-        run: echo "Deploying to environment:${{ github.event.inputs.environment }}"
+        run: echo "Deploying to environment: ${{ github.event.inputs.environment }}"
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -39,21 +42,13 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Upload GitHub Pages artifact
+      - name: Set up GitHub Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./dist  # This must match your build output directory
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-
-    steps:
-      - name: Configure GitHub Pages
-        uses: actions/configure-pages@v4
+          path: ./dist
 
       - name: Deploy to GitHub Pages
         id: deployment
