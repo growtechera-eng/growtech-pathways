@@ -1,0 +1,39 @@
+name: Manual CI/CD Pipeline  (Growtech-pathways)
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Select environment to deploy'
+        required: true
+        default: 'dev'
+        type: choice
+        options:
+          - dev
+          - test
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Show selected environment
+        run: echo "Deploying to environment:${{ github.event.inputs.environment }}"
+
+      - name: Set up Node.js (optional - adjust per your stack)
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm test
+
+      - name: Run Deploy
+        run: npm deploy
+
+  
