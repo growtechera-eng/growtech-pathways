@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
 import { z } from "zod";
 
 const signupSchema = z.object({
@@ -24,7 +23,6 @@ const Signup = () => {
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Validate inputs
     const validation = signupSchema.safeParse({ email, password, fullName });
     if (!validation.success) {
       toast({
@@ -38,46 +36,40 @@ const Signup = () => {
     setLoading(true);
 
     try {
-      const redirectUrl = `${window.location.origin}/`;
-      
-      const { data, error } = await supabase.auth.signUp({
-        email: validation.data.email,
-        password: validation.data.password,
-        options: {
-          emailRedirectTo: redirectUrl,
-          data: {
-            full_name: validation.data.fullName,
-          },
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/signup`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
+        body: JSON.stringify({
+          email: validation.data.email,
+          password: validation.data.password,
+          fullName: validation.data.fullName,
+          role: 'STUDENT'
+        }),
       });
 
-      if (error) {
-        if (error.message.includes("already registered")) {
-          toast({
-            title: "Account exists",
-            description: "This email is already registered. Please login instead.",
-            variant: "destructive",
-          });
-        } else {
-          toast({
-            title: "Signup failed",
-            description: error.message,
-            variant: "destructive",
-          });
-        }
+      const data = await response.json();
+
+      if (!response.ok) {
+        toast({
+          title: "Signup failed",
+          description: data.message || "Failed to create account",
+          variant: "destructive",
+        });
         return;
       }
 
       toast({
         title: "Success!",
-        description: "Account created successfully. Please check your email to verify your account.",
+        description: "Account created successfully. Please login.",
       });
 
-      navigate("/");
+      navigate("/login");
     } catch (error) {
       toast({
         title: "Error",
-        description: "An unexpected error occurred. Please try again.",
+        description: "Could not connect to server. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -90,7 +82,7 @@ const Signup = () => {
       <div className="w-full max-w-md space-y-8">
         <div className="text-center">
           <h1 className="text-3xl font-bold">Create Account</h1>
-          <p className="text-muted-foreground mt-2">Sign up to get started</p>
+          <p className="text-muted-foreground mt-2">Sign up as a student</p>
         </div>
 
         <form onSubmit={handleSignup} className="space-y-6">
