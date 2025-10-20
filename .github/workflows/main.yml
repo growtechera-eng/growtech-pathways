@@ -41,7 +41,7 @@ jobs:
       - name: Upload GitHub Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: dist  # This must match your Vite build output folder
+          path: ./dist  # This must match your Vite build output folder
 
   deploy:
     needs: build
