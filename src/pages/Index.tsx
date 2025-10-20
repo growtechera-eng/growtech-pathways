@@ -1,4 +1,6 @@
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 import Hero from "@/components/Hero";
 import Features from "@/components/Features";
 import LearningPath from "@/components/LearningPath";
@@ -18,6 +20,16 @@ const Index = () => {
 
   return (
     <main>
+      <nav className="absolute top-0 right-0 p-6 z-10">
+        <div className="flex gap-4">
+          <Link to="/login">
+            <Button variant="ghost">Login</Button>
+          </Link>
+          <Link to="/signup">
+            <Button>Sign Up</Button>
+          </Link>
+        </div>
+      </nav>
       <Hero />
       <Features />
       <LearningPath />
