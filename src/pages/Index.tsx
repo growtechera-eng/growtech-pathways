@@ -1,6 +1,10 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+
+// Simple event helpers to request auth modals from App without prop drilling
+const openLoginModal = () => window.dispatchEvent(new CustomEvent("open-login-modal"));
+const openSignupModal = () => window.dispatchEvent(new CustomEvent("open-signup-modal"));
 import Hero from "@/components/Hero";
 import Features from "@/components/Features";
 import LearningPath from "@/components/LearningPath";
@@ -22,12 +26,8 @@ const Index = () => {
     <main>
       <nav className="absolute top-0 right-0 p-6 z-10">
         <div className="flex gap-4">
-          <Link to="/login">
-            <Button variant="ghost">Login</Button>
-          </Link>
-          <Link to="/signup">
-            <Button>Sign Up</Button>
-          </Link>
+          <Button variant="ghost" onClick={openLoginModal}>Login</Button>
+          <Button onClick={openSignupModal}>Sign Up</Button>
         </div>
       </nav>
       <Hero />
